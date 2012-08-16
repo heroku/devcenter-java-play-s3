@@ -181,7 +181,13 @@ To store upload metadata in a database you can create a file named `app/models/S
     
     }
 
-The `S3File` class has four parameters: The `id` which is the primary key; The `bucket` that the file will be stored in; The file's `name`; And the actual `file` which will not actually be stored in the database so it is `Transient`.  The `S3File` class overrides the `save` method where it gets the configured bucket name from the `S3Plugin` and then saves the `S3File` into the database which assigns a new `id`.  Then the file is uploaded to S3 using the S3 Java library.  Note: This example sets the permissions of the file to be public.  The `S3File` class also overrides the `delete` method in order to delete the file on S3 before the `S3File` is deleted from the database.  The actual file name on S3 is derived from the `getActualFileName` method which is the `id` and the original file name concatenated with a "/".  S3 doesn't have a concept of directories but this simulates it and avoids file name collisions.  The `S3File` class also has a `getUrl` method which returns the URL to the file using S3's HTTP service.  This is the most direct way for a user to get a file from S3 but it only works because the file is set to have public accessibility.  Alternatively you could not make the files public and have another method on `S3File` that would use an S3 API call to fetch the file.
+The `S3File` class has four parameters: The `id` which is the primary key; The `bucket` that the file will be stored in; The file's `name`; And the actual `file` which will not actually be stored in the database so it is `Transient`.
+
+The `S3File` class overrides the `save` method where it gets the configured bucket name from the `S3Plugin` and then saves the `S3File` into the database which assigns a new `id`.  Then the file is uploaded to S3 using the S3 Java library.  Note: This example sets the permissions of the file to be public.  The `S3File` class also overrides the `delete` method in order to delete the file on S3 before the `S3File` is deleted from the database.
+
+The actual file name on S3 is derived from the `getActualFileName` method which is the `id` and the original file name concatenated with a "/".  S3 doesn't have a concept of directories but this simulates it and avoids file name collisions.
+
+The `S3File` class also has a `getUrl` method which returns the URL to the file using S3's HTTP service.  This is the most direct way for a user to get a file from S3 but it only works because the file is set to have public accessibility.  Alternatively you could not make the files public and have another method on `S3File` that would use an S3 API call to fetch the file.
 
 Now that you are using a database you will need to configure EBean and a database connection in the `conf/application.conf` file:
 

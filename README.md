@@ -1,7 +1,7 @@
 Run Locally
 -----------
 
-Can the `aws.s3.bucket` value to something globally unique in the `conf/application.conf` file.
+Set the `aws.s3.bucket` value to something globally unique in the `conf/application.conf` file.
 
 Set your AWS connection keys:
 
