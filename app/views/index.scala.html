@@ -1,4 +1,4 @@
-@(uploads: List[models.Upload])
+@(s3Files: List[models.S3File])
 <!DOCTYPE html>
 
 <html>
@@ -16,8 +16,8 @@
 
     <h1>Uploads:</h1>
     <ul>
-    @for(upload <- uploads) {
-        <li><a href="@upload.getUrl()">@upload.name</a></li>
+    @for(s3file <- s3Files) {
+        <li><a href="@s3file.getUrl()">@s3file.name</a></li>
     }
     </ul>
 
