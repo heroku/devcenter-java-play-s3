@@ -4,20 +4,9 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.avaje.ebean.bean.EntityBean;
 import play.Application;
 import play.Logger;
 import play.Plugin;
-import play.db.ebean.Model;
-
-import javax.persistence.*;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.UUID;
 
 public class S3Plugin extends Plugin {
 
@@ -43,6 +32,7 @@ public class S3Plugin extends Plugin {
         if ((accessKey != null) && (secretKey != null)) {
             AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
             amazonS3 = new AmazonS3Client(awsCredentials);
+            amazonS3.createBucket(s3Bucket);
             Logger.info("Using S3 Bucket: " + s3Bucket);
         }
     }

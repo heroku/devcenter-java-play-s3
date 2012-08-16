@@ -20,7 +20,7 @@ public class S3File extends Model {
     @Id
     public UUID id;
 
-    public String bucket;
+    private String bucket;
 
     public String name;
 
@@ -28,11 +28,11 @@ public class S3File extends Model {
     public File file;
 
     public URL getUrl() throws MalformedURLException {
-        return new URL("https://s3.amazonaws.com/" + getActualBucketName() + "/" + name);
+        return new URL("https://s3.amazonaws.com/" + bucket + "/" + getActualFileName());
     }
 
-    private String getActualBucketName() {
-        return bucket + "." + id;
+    private String getActualFileName() {
+        return id + "/" + name;
     }
 
     @Override
@@ -44,13 +44,11 @@ public class S3File extends Model {
         else {
             this.bucket = S3Plugin.s3Bucket;
             
-            super.save();
+            super.save(); // assigns an id
 
-            S3Plugin.amazonS3.createBucket(getActualBucketName());
-
-            PutObjectRequest putObjectRequest = new PutObjectRequest(getActualBucketName(), name, file);
-            putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
-            S3Plugin.amazonS3.putObject(putObjectRequest);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, getActualFileName(), file);
+            putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead); // public for all
+            S3Plugin.amazonS3.putObject(putObjectRequest); // upload file
         }
     }
 
@@ -61,7 +59,7 @@ public class S3File extends Model {
             throw new RuntimeException("Could not delete");
         }
         else {
-            S3Plugin.amazonS3.deleteBucket(getActualBucketName());
+            S3Plugin.amazonS3.deleteObject(bucket, getActualFileName());
             super.delete();
         }
     }
