@@ -1,7 +1,6 @@
 Using Amazon S3 for File Uploads with Java and Play 2
 =====================================================
 
-
 Using a storage service like [AWS S3](http://aws.amazon.com/s3/) to store file uploads provides an order of magnitude scalability, reliability, and speed gain than just storing files on a local filesystem. S3, or similar storage services, are important when architecting applications for scale and are a perfect complement to Heroku’s [ephemeral filesystem](https://devcenter.heroku.com/articles/dynos#ephemeral-filesystem).
 
 This article will show you how to create a Java web application with Play 2 that stores file uploads Amazon's S3.  Before you read this article check out [Using AWS S3 to Store Static Assets and File Uploads](https://devcenter.heroku.com/articles/s3) which shows you how to establish the necessary S3 credentials/keys and provides a more in-depth discussion of the benefits of such an approach.
@@ -11,11 +10,7 @@ Source for this article's sample application is available on
 [GitHub](https://github.com/heroku/devcenter-java-play-s3) and can be seen running at: [WHERE DEPLOYED?](#)
 </div>
 
-If you want to fetch a copy of the source then you can simply clone the Git repository:
-
-    git clone https://github.com/heroku/devcenter-java-play-s3.git
-
-If you are new to Play 2 on Heroku then you will want to the Play 2 documentation on [Deploying to Heroku](http://www.playframework.org/documentation/2.0.2/ProductionHeroku).  Note: While the code in this example is not directly portable to other Java web frameworks, the concepts and high-level architecture is.
+If you are new to Play 2 on Heroku then you will want to the Play 2 documentation on [Deploying to Heroku](http://www.playframework.org/documentation/2.0.2/ProductionHeroku).
 
 
 AWS library
@@ -271,7 +266,7 @@ The `index` method of the `Application` class queries the database for `S3File` 
 Index view
 ----------
 
-Now lets create a simple index page that will contain a form that allows the user to upload a file and also lists the uploads.  Create (or update) a file named [app/views/index.scala.html](https://github.com/heroku/devcenter-java-play-s3/blob/master/app/views/index.scala.html) containing:
+Now let's create a simple index page that will contain a form that allows the user to upload a file and also lists the uploads.  Create (or update) a file named [app/views/index.scala.html](https://github.com/heroku/devcenter-java-play-s3/blob/master/app/views/index.scala.html) containing:
 
     @(uploads: List[Upload])
     <!DOCTYPE html>
