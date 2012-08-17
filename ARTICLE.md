@@ -6,8 +6,7 @@ Using a storage service like [AWS S3](http://aws.amazon.com/s3/) to store file u
 This article will show you how to create a Java web application with Play 2 that stores file uploads Amazon's S3.  Before you read this article check out [Using AWS S3 to Store Static Assets and File Uploads](https://devcenter.heroku.com/articles/s3) which shows you how to establish the necessary S3 credentials/keys and provides a more in-depth discussion of the benefits of such an approach.
 
 <div class="note" markdown="1">
-Source for this article's sample application is available on 
-[GitHub](https://github.com/heroku/devcenter-java-play-s3) and can be seen running at: [WHERE DEPLOYED?](#)
+Source for this article's sample application is available on <a href="https://github.com/heroku/devcenter-java-play-s3">GitHub</a>.
 </div>
 
 If you are new to Play 2 on Heroku then you will want to the Play 2 documentation on [Deploying to Heroku](http://www.playframework.org/documentation/2.0.2/ProductionHeroku).
@@ -26,7 +25,7 @@ S3 provides a RESTful API for interacting with the service.  There is a Java lib
 After updating the dependencies in a Play 2 project you will need to restart the Play 2 server and regenerate any IDE config files (Eclipse & IntelliJ).
 
 
-S3 plugin for play 2
+S3 plugin for Play 2
 --------------------
 
 Play 2 has a way to create plugins which can be automatically started when the server starts.  There isn't an official S3 Plugin for Play 2 yet but you can create your own by creating a file named [app/plugins/S3Plugin.java](https://github.com/heroku/devcenter-java-play-s3/blob/master/app/plugins/S3Plugin.java) with the following contents:
@@ -305,13 +304,39 @@ The last thing that needs to be setup is the routes.  The [conf/routes](https://
     POST    /                           controllers.Application.upload()
 
 
-Further learning
-----------------
+Run on Heroku
+-------------
 
-You now have a file upload example app that uses S3 for file storage!  You can run the application locally and on Heroku.  To run on Heroku make sure you add the `AWS_ACCESS_KEY` and `AWS_SECRET_KEY` config vars to your application:
+If you did not clone the source from the sample project's [git repository](https://github.com/heroku/devcenter-java-play-s3.git), then you will need to add your files to a new Git repo and commit them:
 
     :::term
-    $ heroku config:add AWS_ACCESS_KEY=<Your AWS Access Key> AWS_SECRET_KEY=<Your AWS Secret Key>
+    git init
+    git add .
+    git commit -m init
+
+Now you can provision a new application on Heroku:
+
+    :::term
+    heroku create
+
+Set your AWS connection keys as config vars on your application:
+
+    :::term
+    heroku config:add AWS_ACCESS_KEY=<Your AWS Access Key> AWS_SECRET_KEY=<Your AWS Secret Key>
+
+To deploy the application on Heroku, push your Git repository to Heroku:
+
+    :::term
+    git push heroku master
+
+Now verify that the application is working:
+
+    :::term
+    heroku open
+
+
+Further learning
+----------------
 
 This is just a very simple example so there are a few areas that could be improved on in a production use case.  In this example the file downloads were served from Amazon S3.  A better setup is to edge cache the uploads using [Amazon CloudFront](http://aws.amazon.com/cloudfront/).
 
