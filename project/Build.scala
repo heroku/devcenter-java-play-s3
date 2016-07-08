@@ -9,7 +9,7 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       "com.amazonaws" % "aws-java-sdk" % "1.3.11",
-      "postgresql" % "postgresql" % "9.1-901-1.jdbc4"
+      "postgresql" % "postgresql" % "9.4-1201-jdbc4"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
